@@ -1,5 +1,14 @@
-<script setup>
-// const { data: count } = await useFetch('/api/count')
+<script setup lang="ts">
+definePageMeta({
+  layout: false,
+  middleware: ["auth"],
+});
+const config = useRuntimeConfig();
+const onSubmit = async () => {
+  console.log("on submit", config.public.baseApiURL);
+  const { data: users } = await useFetch(config.public.baseApiURL + "/users");
+  console.log(users.value);
+};
 </script>
 <template>
   <section class="h-100 gradient-form" style="background-color: #eee">
@@ -49,6 +58,7 @@
                       <button
                         class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3"
                         type="button"
+                        @click="onSubmit"
                       >
                         Log in
                       </button>
